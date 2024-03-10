@@ -47,8 +47,10 @@ const Model: React.FC<ModelProps> = ({
     if (disabled) {
       return;
     }
+    console.log("ffokre");
+
     onSubmit();
-  }, [disabled, onSubmit]);
+  }, [onSubmit, disabled]);
 
   const handleSecondaryAction = useCallback(() => {
     if (disabled || !secondaryAction) {
@@ -70,7 +72,17 @@ const Model: React.FC<ModelProps> = ({
         >
           <div className="translate h-full lg:h-auto md:h-auto border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-center p-6 rounded-t justify-center border-b-[1px] relative">
-              <button>
+              <button
+                className="
+                    p-1
+                    border-0 
+                    hover:opacity-70
+                    transition
+                    absolute
+                    left-9
+                  "
+                onClick={handleClose}
+              >
                 <IoMdClose size={10} />
               </button>
 
@@ -93,6 +105,7 @@ const Model: React.FC<ModelProps> = ({
                   onClick={handleSubmit}
                 />
               </div>
+              {footer}
             </div>
           </div>
         </div>
