@@ -11,8 +11,10 @@ import Input from "../Inputs/Input";
 import toast from "react-hot-toast";
 import Button from "../Button";
 import useLoginModel from "@/app/hook/userLoginModel";
-
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 const LoginModel = () => {
+  const router = useRouter();
   const registerModal = useRegisterModel();
   const loginModel = useLoginModel();
   const [isLoading, setIsLoading] = useState(false);
@@ -22,27 +24,30 @@ const LoginModel = () => {
     formState: { errors },
   } = useForm<FieldValues>({
     defaultValues: {
-      name: "",
       email: "",
       password: "",
     },
   });
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     setIsLoading(true);
-
-    axios
-      .post("/api/register", data)
-      .then(() => {})
-      .catch((error) => {
-        toast.error("Something Went Wrong!");
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    signIn("credentials", {
+      ...data,
+      redirect: false,
+    }).then((callback) => {
+      setIsLoading(false);
+      if (callback?.ok) {
+        toast.success("Logged in");
+        router.refresh();
+        loginModel.onClose();
+      }
+      if (callback?.error) {
+        toast.error(callback?.error);
+      }
+    });
   };
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <Heading title="Welcome to Airbnb" subtitle="Create an Account!" />
+      <Heading title="Welcome back" subtitle="Login to your account!" />
       <Input
         id="email"
         label="Email"
@@ -51,14 +56,7 @@ const LoginModel = () => {
         errors={errors}
         required
       />
-      <Input
-        id="name"
-        label="Name"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
+
       <Input
         id="password"
         type="password"
@@ -104,7 +102,7 @@ const LoginModel = () => {
     <Modal
       disabled={isLoading}
       isOpen={loginModel.isOpen}
-      title="Register"
+      title="Login"
       actionLabel="Continue"
       onClose={loginModel.onClose}
       onSubmit={handleSubmit(onSubmit)}
