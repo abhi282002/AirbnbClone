@@ -3,7 +3,6 @@ import useRentModel from "@/app/hook/useRentModel";
 import Model from "./Modal";
 import { useMemo, useState } from "react";
 import Heading from "../Heading";
-
 import { categories } from "../navbar/Categories";
 import CategoryInput from "../Inputs/CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
@@ -46,6 +45,8 @@ const RentModel = () => {
 
   const category = watch("category");
   const location = watch("location");
+  const guestCount = watch("guestCount");
+  const roomCount = watch("roomCount");
   const Map = useMemo(
     () =>
       dynamic(() => import("../Map"), {
@@ -123,7 +124,26 @@ const RentModel = () => {
           title="Share some basics about your place"
           subtitle="What amenities do you have"
         />
-        <Counter />
+        <Counter
+          title="Guests"
+          subtitle="How many guests do you allow?"
+          value={guestCount}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
+        <hr />
+        <Counter
+          title="Rooms"
+          subtitle="How many rooms do you have?"
+          value={guestCount}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
+        <hr />
+        <Counter
+          title="Bathrooms"
+          subtitle="How many bathrooms do you have?"
+          value={guestCount}
+          onChange={(value) => setCustomValue("guestCount", value)}
+        />
       </div>
     );
   }
