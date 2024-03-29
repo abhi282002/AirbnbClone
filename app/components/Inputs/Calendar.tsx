@@ -13,7 +13,18 @@ const Calendar: React.FC<CalendarProps> = ({
   onChange,
   disabledDates,
 }) => {
-  return <DateRange />;
+  return (
+    <DateRange
+      rangeColors={["#262626"]}
+      ranges={[value]}
+      date={new Date()}
+      onChange={onChange}
+      direction="vertical"
+      showDateDisplay={false}
+      minDate={new Date()}
+      disabledDates={disabledDates}
+    />
+  );
 };
 
 export default Calendar;
