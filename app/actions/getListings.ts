@@ -1,4 +1,5 @@
 import prisma from "@/app/libs/prismadb";
+
 export interface IListingsParams {
   userId?: string;
   guestCount?: number;
@@ -9,6 +10,7 @@ export interface IListingsParams {
   locationValue?: string;
   category?: string;
 }
+
 export default async function getListings(params: IListingsParams) {
   try {
     const {
@@ -21,34 +23,42 @@ export default async function getListings(params: IListingsParams) {
       endDate,
       category,
     } = params;
+
     let query: any = {};
+
     if (userId) {
       query.userId = userId;
     }
+
     if (category) {
       query.category = category;
     }
+
     if (roomCount) {
       query.roomCount = {
         gte: +roomCount,
       };
     }
-    if (bathroomCount) {
-      query.bathroomCount = {
-        gte: +bathroomCount,
-      };
-    }
+
     if (guestCount) {
       query.guestCount = {
         gte: +guestCount,
       };
     }
+
+    if (bathroomCount) {
+      query.bathroomCount = {
+        gte: +bathroomCount,
+      };
+    }
+
     if (locationValue) {
       query.locationValue = locationValue;
     }
+
     if (startDate && endDate) {
       query.NOT = {
-        reservation: {
+        reservations: {
           some: {
             OR: [
               {
@@ -64,6 +74,7 @@ export default async function getListings(params: IListingsParams) {
         },
       };
     }
+
     const listings = await prisma.listing.findMany({
       where: query,
       orderBy: {
@@ -71,9 +82,10 @@ export default async function getListings(params: IListingsParams) {
       },
     });
 
-    const safeListings = listings.map((listing) => {
-      return { ...listing, createdAt: listing.createdAt.toISOString() };
-    });
+    const safeListings = listings.map((listing) => ({
+      ...listing,
+      createdAt: listing.createdAt.toISOString(),
+    }));
 
     return safeListings;
   } catch (error: any) {
