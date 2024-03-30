@@ -8,6 +8,7 @@ import ToasterProvider from "./provider/ToasterProvider";
 import LoginModel from "./components/models/LoginModel";
 import getCurrentUser from "./actions/getCurrentUser";
 import RentModel from "./components/models/RentModel";
+import SearchModal from "./components/models/SearchModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
           <ToasterProvider />
           <LoginModel />
           <RentModel />
+          <SearchModal />
           <RegisterModel />
           <Navbar currentUser={currentUser} />
         </ClientOnly>
