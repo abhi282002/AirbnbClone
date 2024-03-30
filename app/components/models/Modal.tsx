@@ -47,7 +47,6 @@ const Model: React.FC<ModelProps> = ({
     if (disabled) {
       return;
     }
-    console.log("ffokre");
 
     onSubmit();
   }, [onSubmit, disabled]);
