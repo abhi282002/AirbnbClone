@@ -12,7 +12,7 @@ import { SafeUser } from "@/app/types";
 import useRentModel from "@/app/hook/useRentModel";
 import { useRouter } from "next/navigation";
 interface UserMenuProps {
-  currentUser: SafeUser | null;
+  currentUser?: SafeUser | null;
 }
 const UserMenu: React.FC<UserMenuProps> = ({ currentUser }) => {
   const router = useRouter();
