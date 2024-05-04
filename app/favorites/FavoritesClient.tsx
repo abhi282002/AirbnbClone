@@ -1,6 +1,6 @@
 "use client";
 
-import { list } from "postcss";
+
 import Container from "../components/Container";
 import Heading from "../components/Heading";
 import { SafeListing, SafeUser } from "../types";
